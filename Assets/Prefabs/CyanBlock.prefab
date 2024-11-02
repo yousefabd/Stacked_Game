@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleBlockSO: {fileID: 11400000, guid: 6cb6e942bc9c06445bc5ebb975115245, type: 2}
-  I: 0
-  J: 0
 --- !u!1 &2539249440608476243
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +117,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -611571119
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: af606d0f1fbe8114b91232161e8d7d14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

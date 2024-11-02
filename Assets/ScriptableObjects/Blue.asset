@@ -15,3 +15,4 @@ MonoBehaviour:
   stringName: Blue
   charSymbol: 66
   prefab: {fileID: 2230920204929615978, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
+  blockSpeed: 10

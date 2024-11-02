@@ -44,7 +44,7 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
     }
     public void Move()
     {
-        transform.position = Vector3.Lerp(transform.position, currentTargetPosition, 0.1f);
+        transform.position = Vector3.Lerp(transform.position, currentTargetPosition, puzzleBlockSO.blockSpeed*Time.deltaTime);
         if (Vector3.Distance(transform.position, currentTargetPosition) <= 0.01)
         {
             currentPuzzleBlockState = PuzzleBlockState.IDLE;

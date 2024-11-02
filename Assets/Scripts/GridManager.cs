@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance { get; private set; }
+
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private float cellSize = 1;
@@ -15,6 +17,10 @@ public class GridManager : MonoBehaviour
     private Vector2 originPosition;
 
     private GameGrid gameGrid;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -36,7 +42,7 @@ public class GridManager : MonoBehaviour
         CreateBlock(testBlocks[randomBlockIndex], new Vector2Int(3, 3));
 
         gameGrid.OnTestMoveObject += GameGrid_OnTestMoveObject;
-        gameGrid.OnMerged += GameGrid_OnMerged;
+        gameGrid.OnFuseBlock += GameGrid_OnFuseBlock;
 
         InputManager.Instance.OnMove += InputManager_OnMove;
     }
@@ -50,7 +56,7 @@ public class GridManager : MonoBehaviour
     {
         puzzleBlock.SetPosition(GridToWorldPosition(new Vector2Int(newX,newY)));
     }
-    private void GameGrid_OnMerged(PuzzleBlock puzzleBlock)
+    private void GameGrid_OnFuseBlock(PuzzleBlock puzzleBlock)
     {
         puzzleBlock.Destruct();
     }
@@ -85,5 +91,10 @@ public class GridManager : MonoBehaviour
                     Debug.Log("at: (" + i + " , " + j + "): " + gameGrid.GetPuzzleBlock(new Vector2Int(i,j)));
             }
         }
+    }
+
+    public int GetColoredBlocksCount()
+    {
+        return testBlocks.Count;
     }
 }

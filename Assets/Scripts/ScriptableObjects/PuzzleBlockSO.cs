@@ -8,6 +8,7 @@ public class PuzzleBlockSO : ScriptableObject
     public string stringName;
     public char charSymbol;
     public Transform prefab;
+    public float blockSpeed;
     public bool IsBlock()
     {
         return charSymbol == '#';

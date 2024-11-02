@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class GameGrid
 {
-    private int width;
-    private int height;
-    private PuzzleBlock[,] gameGrid;
+    private readonly int width;
+    private readonly int height;
+    private readonly PuzzleBlock[,] gameGrid;
 
     public event Action<PuzzleBlock,int,int> OnTestMoveObject;
-    public event Action<PuzzleBlock> OnMerged; 
+    public event Action<PuzzleBlock> OnFuseBlock;
 
     public GameGrid(int width, int height)
     {
@@ -46,24 +47,22 @@ public class GameGrid
     {
         return !IsBlocked(pos) && !IsClear(pos);
     }
-    private Vector2Int GetFuturePosition(Vector2Int currentPosition, Vector2Int moveDir)
+    private bool IsGameOver()
     {
-        Vector2Int offsetValue = new Vector2Int(-1 * moveDir.x, -1 * moveDir.y);
-        Vector2Int currentOffset = Vector2Int.zero;
-        Vector2Int futurePosition = currentPosition;
-        bool canMerge = true;
-        while (!IsBlocked(futurePosition + moveDir))
+        int blocksCount = 0;
+        HashSet<char> colors = new HashSet<char>();
+        for(int i = 0; i < width; i++)
         {
-            futurePosition += moveDir;
-            if (!IsIdentical(GetPuzzleBlock(currentPosition), futurePosition) && !IsClear(futurePosition))
+            for(int j=0;j<height; j++)
             {
-                canMerge = false;
-                currentOffset += offsetValue;
+                if (IsColoredBlock(new Vector2Int(i, j)))
+                {
+                    blocksCount++;
+                    colors.Add(gameGrid[i, j].GetCharSymbol());
+                }
             }
-            else if(IsIdentical(GetPuzzleBlock(currentPosition),futurePosition) && !canMerge)
-                currentOffset += offsetValue;
         }
-        return futurePosition + currentOffset;
+        return (blocksCount == colors.Count());
     }
     public void Move(Vector2Int moveDir)
     {
@@ -71,11 +70,10 @@ public class GameGrid
         Vector2Int forceDir = new Vector2Int(-1 * moveDir.y, moveDir.x);
         int outerLimit = (moveDir.x == 0 ? height : width);
         int innerLimit = (width * height) / outerLimit;
-        Dictionary<PuzzleBlock, Vector2Int> newPositions = new Dictionary<PuzzleBlock, Vector2Int>();
         for (int i = 0; i < outerLimit; i++)
         {
             Queue<Vector2Int> availablePositions = new Queue<Vector2Int>();
-
+            Vector2Int currentFacingBlockPos = new Vector2Int(-1, -1);
             for (int j = 0; j < innerLimit; j++)
             {
                 int x = Math.Abs(forceDir.x * j + forceDir.y * i);
@@ -85,10 +83,23 @@ public class GameGrid
                 Vector2Int pos = new Vector2Int(r, c);
                 if(IsColoredBlock(pos))
                 {
-                    if (availablePositions.Any())
+                    if (IsIdentical(gameGrid[pos.x, pos.y], currentFacingBlockPos))
+                    {
+                        OnTestMoveObject?.Invoke(gameGrid[pos.x, pos.y], currentFacingBlockPos.x, currentFacingBlockPos.y);
+                        OnFuseBlock?.Invoke(gameGrid[pos.x, pos.y]);
+                        gameGrid[pos.x, pos.y] = null;
+                        availablePositions.Enqueue(pos);
+                    }
+                    else if (availablePositions.Any())
                     {
                         Vector2Int newPos = availablePositions.Dequeue();
+                        currentFacingBlockPos = newPos;
                         MovePuzzleBlock(pos, newPos);
+                        availablePositions.Enqueue(pos);
+                    }
+                    else
+                    {
+                        currentFacingBlockPos = pos;
                     }
                 }
                 else if (IsClear(pos))
@@ -101,6 +112,8 @@ public class GameGrid
                 }
             }
         }
+        if (IsGameOver())
+            Debug.Log("Game Over!");
     }
 
     private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition)
@@ -110,17 +123,6 @@ public class GameGrid
         OnTestMoveObject?.Invoke(gameGrid[newPosition.x,newPosition.y],newPosition.x, newPosition.y);
     }
 
-    private void ClearGameGrid()
-    {
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                if (!IsBlocked(new Vector2Int(i, j)))
-                    gameGrid[i, j] = null;
-            }
-        }
-    }
     public void SetGridObject(int x,int y,PuzzleBlock puzzleBlock)
     {
         gameGrid[x, y] = puzzleBlock;   

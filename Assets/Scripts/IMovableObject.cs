@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IMovableObject
 {
     public void Move();
+    public void Destruct();
 }
