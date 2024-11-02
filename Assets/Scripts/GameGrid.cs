@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ExceptionServices;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameGrid
 {
@@ -12,8 +9,9 @@ public class GameGrid
     private readonly int height;
     private readonly PuzzleBlock[,] gameGrid;
 
-    public event Action<PuzzleBlock,int,int> OnTestMoveObject;
+    public event Action<PuzzleBlock,int,int> OnMoveBlock;
     public event Action<PuzzleBlock> OnFuseBlock;
+    public event Action OnGameOver;
 
     public GameGrid(int width, int height)
     {
@@ -85,7 +83,7 @@ public class GameGrid
                 {
                     if (IsIdentical(gameGrid[pos.x, pos.y], currentFacingBlockPos))
                     {
-                        OnTestMoveObject?.Invoke(gameGrid[pos.x, pos.y], currentFacingBlockPos.x, currentFacingBlockPos.y);
+                        OnMoveBlock?.Invoke(gameGrid[pos.x, pos.y], currentFacingBlockPos.x, currentFacingBlockPos.y);
                         OnFuseBlock?.Invoke(gameGrid[pos.x, pos.y]);
                         gameGrid[pos.x, pos.y] = null;
                         availablePositions.Enqueue(pos);
@@ -113,14 +111,14 @@ public class GameGrid
             }
         }
         if (IsGameOver())
-            Debug.Log("Game Over!");
+            OnGameOver?.Invoke();
     }
 
     private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition)
     {
         gameGrid[newPosition.x,newPosition.y] = gameGrid[oldPosition.x,oldPosition.y];
         gameGrid[oldPosition.x, oldPosition.y] = null;
-        OnTestMoveObject?.Invoke(gameGrid[newPosition.x,newPosition.y],newPosition.x, newPosition.y);
+        OnMoveBlock?.Invoke(gameGrid[newPosition.x,newPosition.y],newPosition.x, newPosition.y);
     }
 
     public void SetGridObject(int x,int y,PuzzleBlock puzzleBlock)

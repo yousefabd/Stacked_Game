@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
-  m_Name: Blue
+  m_Name: GrassObstacle
   m_EditorClassIdentifier: 
-  stringName: Blue
-  charSymbol: 66
-  prefab: {fileID: 2230920204929615978, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
-  blockSpeed: 10
+  stringName: GrassObstacle
+  charSymbol: 35
+  prefab: {fileID: 2230920204929615978, guid: e00cebc6ad71dca499229e68b5655564, type: 3}
+  blockSpeed: 0

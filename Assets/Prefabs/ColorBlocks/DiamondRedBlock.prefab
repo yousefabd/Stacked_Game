@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2230920204929615978}
   - component: {fileID: 7522482402964762658}
   m_Layer: 0
-  m_Name: ObstacleBlock
+  m_Name: DiamondRedBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcaf05f4a345bc4dbe10dfcb8229798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleBlockSO: {fileID: 11400000, guid: 2b1aa7bfec945dd48a9f57553b116e32, type: 2}
+  puzzleBlockSO: {fileID: 11400000, guid: 67d94acb52fcb6f48be2ebceab61f3e4, type: 2}
 --- !u!1 &2539249440608476243
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ SpriteRenderer:
   m_SortingLayerID: -611571119
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4dd70a04fe71a1549b734a66971aca3a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7beb293dd68a631448b29d75b5257493, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

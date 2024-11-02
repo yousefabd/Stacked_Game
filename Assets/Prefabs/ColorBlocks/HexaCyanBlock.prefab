@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2230920204929615978}
   - component: {fileID: 4174842012077298054}
   m_Layer: 0
-  m_Name: CyanBlock
+  m_Name: HexaCyanBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

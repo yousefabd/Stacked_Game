@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2974146205
+    locked: 0
   - name: Puzzle Blocks
     uniqueID: 3683396177
     locked: 0

@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
-  m_Name: Obstacle
+  m_Name: DiamondLime
   m_EditorClassIdentifier: 
-  stringName: Obstacle
-  charSymbol: 35
-  prefab: {fileID: 2230920204929615978, guid: e00cebc6ad71dca499229e68b5655564, type: 3}
+  stringName: DiamondCream
+  charSymbol: 70
+  prefab: {fileID: 4317358215015264655, guid: 72728fef8967e704ca5fabc16e76bff5, type: 3}
+  blockSpeed: 10

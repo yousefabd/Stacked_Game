@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
-  m_Name: Pink
+  m_Name: PlainYellow
   m_EditorClassIdentifier: 
-  stringName: Pink
-  charSymbol: 80
-  prefab: {fileID: 2230920204929615978, guid: b087c615c103dbc45957970286b2f483, type: 3}
+  stringName: PlainYellow
+  charSymbol: 69
+  prefab: {fileID: 2230920204929615978, guid: cdd309e484950db4c90a0864e9a5474d, type: 3}
   blockSpeed: 10
