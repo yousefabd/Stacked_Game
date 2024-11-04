@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
   m_Name: DiamondLime
   m_EditorClassIdentifier: 
-  stringName: DiamondCream
-  charSymbol: 70
-  prefab: {fileID: 4317358215015264655, guid: 72728fef8967e704ca5fabc16e76bff5, type: 3}
+  stringName: DiamondLime
+  charSymbol: 71
+  prefab: {fileID: 4527471460164126321, guid: 565625f07a0c0bf4a9c66298d73ecee0, type: 3}
   blockSpeed: 10
+  sprite: {fileID: 21300000, guid: 156140df3ad8d094c95f2a842d01a994, type: 3}

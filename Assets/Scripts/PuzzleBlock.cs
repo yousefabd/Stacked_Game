@@ -18,7 +18,7 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
     private void Start()
     {
         destruct = false;
-        currentPuzzleBlockState = PuzzleBlockState.IDLE;
+        SetState(PuzzleBlockState.IDLE);
         if (puzzleBlockSO.IsBlock())
             currentPuzzleBlockState = PuzzleBlockState.BLOCKED;
     }

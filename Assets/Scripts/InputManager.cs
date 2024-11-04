@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     public event Action<Vector2Int> OnMove;
     public event Action<Vector3> OnMouseCLicked;
 
-    private float maxInputCooldown = 0.2f;
+    private float maxInputCooldown = 0.4f;
     private float currentInputCooldown;
     private Camera mainCamera;
     private void Awake()

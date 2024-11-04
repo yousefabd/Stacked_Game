@@ -37,7 +37,6 @@ public class BlockEditorManager : MonoBehaviour
 
     public bool HasSelected()
     {
-        Debug.Log(selectedPuzzleBlock);
         return selectedPuzzleBlock != null; 
     }
 }

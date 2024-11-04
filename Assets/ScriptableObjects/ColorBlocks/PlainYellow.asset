@@ -16,3 +16,4 @@ MonoBehaviour:
   charSymbol: 69
   prefab: {fileID: 2230920204929615978, guid: cdd309e484950db4c90a0864e9a5474d, type: 3}
   blockSpeed: 10
+  sprite: {fileID: 21300000, guid: a31178827bb349a48938e23a717aa3b2, type: 3}

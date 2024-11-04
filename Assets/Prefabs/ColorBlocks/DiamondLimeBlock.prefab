@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7522482402964762658, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: puzzleBlockSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e74cdda048b932642a5690ad2f720505, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

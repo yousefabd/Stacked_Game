@@ -28,12 +28,15 @@ public class ColorsListUI : MonoBehaviour
         UpdateVisuals();
     }
 
+
+
     private void UpdateVisuals()
     {
         if (!BlockEditorManager.Instance.HasSelected())
         {
             Transform selected = puzzleBlockSOTransform[coloredBlocksList[0]].Find("selected");
             selected.gameObject.SetActive(true);
+            BlockEditorManager.Instance.SetPuzzleBlockSO(coloredBlocksList[0]);
             return;
         }
         foreach(PuzzleBlockSO puzzleBlock in coloredBlocksList)

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
-  m_Name: HeartPink
+  m_Name: IceObstacle
   m_EditorClassIdentifier: 
-  stringName: HeartPink
-  charSymbol: 67
-  prefab: {fileID: 2230920204929615978, guid: b087c615c103dbc45957970286b2f483, type: 3}
-  blockSpeed: 10
-  sprite: {fileID: 21300000, guid: bcedfc3abbddb3c4f8c092f70b8f216f, type: 3}
+  stringName: IceObstacle
+  charSymbol: 35
+  prefab: {fileID: 2230920204929615978, guid: f3ad488b92eafb040902ca2401bfd785, type: 3}
+  blockSpeed: 0
+  sprite: {fileID: 21300000, guid: c53fb56730c15a6439ec2dbfa9231b55, type: 3}
