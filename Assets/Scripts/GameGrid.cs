@@ -60,7 +60,7 @@ public class GameGrid
         }
         return (blocksCount == colors.Count());
     }
-    public void ApplyForce(Vector2Int forceDir ,PuzzleBlock[,] gameGrid,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
+    public void ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
     {
         puzzleBlockMoves = new Dictionary<PuzzleBlock,MoveAction>();
         int width = gameGrid.GetLength(0);
@@ -84,7 +84,7 @@ public class GameGrid
                     {
                         Debug.Log(gameGrid[pos.x, pos.y] + " at " + pos + " is identical to the one at " + currentFacingBlockPos);
                         puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, true);
-                        MovePuzzleBlock(pos, currentFacingBlockPos, gameGrid, true);
+                        MovePuzzleBlock(pos, currentFacingBlockPos, true);
                         availablePositions.Enqueue(pos);
                     }
                     else if (availablePositions.Any())
@@ -92,7 +92,7 @@ public class GameGrid
                         Vector2Int newPos = availablePositions.Dequeue();
                         currentFacingBlockPos = newPos;
                         puzzleBlockMoves[gameGrid[pos.x,pos.y]] = new MoveAction(newPos, false);
-                        MovePuzzleBlock(pos, newPos, gameGrid);
+                        MovePuzzleBlock(pos, newPos);
                         availablePositions.Enqueue(pos);
                     }
                     else
@@ -112,22 +112,20 @@ public class GameGrid
             }
         }
     }
-    public List<PuzzleBlock[,]> GetAdjacentGrids()
+    private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition, bool destroy = false)
     {
-        List<PuzzleBlock[,]> adjacents = new List<PuzzleBlock[,]>();
-        Vector2Int[] moves = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) };
-        for (int i = 0; i < moves.Count(); i++)
+        if (destroy)
         {
-            PuzzleBlock[,] move = gameGrid;
-            ApplyForce(moves[i], move,out _);
-            adjacents.Add(move);
+            gameGrid[oldPosition.x, oldPosition.y] = null;
+            return;
         }
-        return adjacents;
+        gameGrid[newPosition.x, newPosition.y] = gameGrid[oldPosition.x, oldPosition.y];
+        gameGrid[oldPosition.x, oldPosition.y] = null;
     }
     public void Move(Vector2Int moveDir)
     {
         Vector2Int forceDir = new Vector2Int(-1 * moveDir.y, moveDir.x);
-        ApplyForce(forceDir,gameGrid,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves);
+        ApplyForce(forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves);
         OnSyncMoves?.Invoke(puzzleBlockMoves);
         if (IsGameOver())
         {
@@ -141,15 +139,34 @@ public class GameGrid
         gameGrid[x, y] = puzzleBlock;
         return true;
     }
-
-    private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition, PuzzleBlock[,] gameGrid, bool destroy = false)
+    public PuzzleBlock[,] GetGrid()
     {
-        if (destroy)
+        return gameGrid;
+    }
+    public Vector2Int GetAxis()
+    {
+        return new Vector2Int(width, height);
+    }
+    public char GetChar(int x, int y)
+    {
+        if (IsClear(new Vector2Int(x, y)))
+            return '.';
+        return gameGrid[x, y].GetCharSymbol();
+    }
+    public void SetGrid(PuzzleBlock[,] newGrid)
+    {
+        for(int i = 0; i < newGrid.GetLength(0); i++)
         {
-            gameGrid[oldPosition.x, oldPosition.y] = null;
-            return;
+            for (int j = 0; j < newGrid.GetLength(1); j++)
+            {
+                gameGrid[i,j] = newGrid[i, j];
+            }
         }
-        gameGrid[newPosition.x,newPosition.y] = gameGrid[oldPosition.x,oldPosition.y];
-        gameGrid[oldPosition.x, oldPosition.y] = null;
+    }
+    public GameGrid GetCopy()
+    {
+        GameGrid copyGameGrid = new GameGrid(width, height);
+        copyGameGrid.SetGrid(GetGrid());
+        return copyGameGrid;
     }
 }
