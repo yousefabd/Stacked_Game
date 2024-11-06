@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5344d58d343344980350f7f0212fbd, type: 3}
   m_Name: PlainCyan
   m_EditorClassIdentifier: 
-  stringName: PlainBlue
+  stringName: PlainCyan
   charSymbol: 65
-  prefab: {fileID: 2230920204929615978, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
+  prefab: {fileID: 7722943010041385589, guid: 8f4c2991447c92a449980bbcdd0fa14f, type: 3}
   blockSpeed: 10
-  sprite: {fileID: 21300000, guid: b414f4ee0eb56bd40a15dc2221d9930a, type: 3}
+  sprite: {fileID: 21300000, guid: a1e04b44a8a960b4db84da55985635d0, type: 3}

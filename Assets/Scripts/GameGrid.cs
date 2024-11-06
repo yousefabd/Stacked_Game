@@ -43,7 +43,7 @@ public class GameGrid
     {
         return !IsBlocked(pos) && !IsClear(pos);
     }
-    private bool IsGameOver()
+    public bool IsGameOver()
     {
         int blocksCount = 0;
         HashSet<char> colors = new HashSet<char>();
@@ -63,6 +63,8 @@ public class GameGrid
     public void ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
     {
         puzzleBlockMoves = new Dictionary<PuzzleBlock,MoveAction>();
+        if (forceDir == Vector2Int.zero)
+            return;
         int width = gameGrid.GetLength(0);
         int height = gameGrid.GetLength(1);
         int outerLimit = (forceDir.y == 0 ? height : width);

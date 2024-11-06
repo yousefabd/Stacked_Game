@@ -18,8 +18,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] private PuzzleBlock obstacleBlock;
     private List<PuzzleBlockSO> initialBlocks;
 
-
-    public event Action OnGameStarted;
     public event Action OnGameOver;
 
     private GameGrid gameGrid;
@@ -33,23 +31,18 @@ public class GridManager : MonoBehaviour
     {
         ConfirmWorldGridSizes(width, height);
 
-        InputManager.Instance.OnMove += InputManager_OnMove;
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            OnGameStarted?.Invoke();
-        }
+        InputManager.Instance.OnMove += OnMove;
+        AutoMover.Instance.OnAutoMove += OnMove;
     }
     private void GameGrid_OnGameOver()
     {
         OnGameOver?.Invoke();
     }
 
-    private void InputManager_OnMove(Vector2Int moveDir)
+    private void OnMove(Vector2Int moveDir)
     {
-        gameGrid.Move(moveDir);
+        if(GameManager.Instance.IsPlaying())
+            gameGrid.Move(moveDir);
     }
     public void CreateBlock(PuzzleBlockSO puzzleBlockSO, Vector2Int gridPosition)
     {
