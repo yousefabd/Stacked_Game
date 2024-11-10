@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DiamondLime
   m_EditorClassIdentifier: 
   stringName: DiamondLime
-  charSymbol: 71
+  charSymbol: 66
   prefab: {fileID: 4527471460164126321, guid: 565625f07a0c0bf4a9c66298d73ecee0, type: 3}
   blockSpeed: 10
   sprite: {fileID: 21300000, guid: 156140df3ad8d094c95f2a842d01a994, type: 3}

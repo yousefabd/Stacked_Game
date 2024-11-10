@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeartPink
   m_EditorClassIdentifier: 
   stringName: HeartPink
-  charSymbol: 67
+  charSymbol: 69
   prefab: {fileID: 2230920204929615978, guid: b087c615c103dbc45957970286b2f483, type: 3}
   blockSpeed: 10
   sprite: {fileID: 21300000, guid: bcedfc3abbddb3c4f8c092f70b8f216f, type: 3}

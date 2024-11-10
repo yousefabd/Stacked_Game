@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HexaCyan
   m_EditorClassIdentifier: 
   stringName: HexaCyan
-  charSymbol: 66
+  charSymbol: 71
   prefab: {fileID: 2230920204929615978, guid: b243f7a60560b244a99a310963b66717, type: 3}
   blockSpeed: 10
   sprite: {fileID: 21300000, guid: af606d0f1fbe8114b91232161e8d7d14, type: 3}

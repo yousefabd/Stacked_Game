@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverScreenUI : MonoBehaviour
 {
     private enum GameState { PLAYING, OVER};
     private GameState currentGameState;
     private float gameOverCountDown;
+
+    [SerializeField] private Button restartButton;
     private void Start()
     {
         GridManager.Instance.OnGameOver += GridManager_OnGameOver;
         currentGameState = GameState.PLAYING;
         gameOverCountDown = 1f;
+        restartButton.onClick.AddListener(() =>
+        {
+            Debug.Log("restart");
+            gameObject.SetActive(false);
+            Time.timeScale = 1f;
+        });
         Hide();
     }
     private void Update()

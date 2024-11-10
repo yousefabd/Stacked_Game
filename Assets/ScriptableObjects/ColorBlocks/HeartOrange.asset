@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeartOrange
   m_EditorClassIdentifier: 
   stringName: HeartOrange
-  charSymbol: 67
+  charSymbol: 68
   prefab: {fileID: 4296341047702418948, guid: b93bbb91e8369224b9d0d8c7b11f0f74, type: 3}
   blockSpeed: 10
   sprite: {fileID: 21300000, guid: 5b8b4cf982f3f164e88710ade557fa59, type: 3}

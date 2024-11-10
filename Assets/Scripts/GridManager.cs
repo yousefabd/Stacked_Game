@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
@@ -112,6 +107,7 @@ public class GridManager : MonoBehaviour
         }
 
     }
+
     public void SyncPuzzleBlocks(Dictionary<PuzzleBlock, MoveAction> puzzleBlockMoves)
     {
         foreach (PuzzleBlock puzzleBlock in puzzleBlockMoves.Keys)
@@ -132,10 +128,7 @@ public class GridManager : MonoBehaviour
     public void SetWorldGridSizes(int width, int height)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        SerializedObject serializedObject = new(spriteRenderer);
-        SerializedProperty sizeProperty = serializedObject.FindProperty("m_Size");
-        sizeProperty.vector2Value = new Vector2(height, width);
-        serializedObject.ApplyModifiedProperties();
+        spriteRenderer.size = new Vector2(height, width);
     }
 
     public void ConfirmWorldGridSizes(int width,int height)

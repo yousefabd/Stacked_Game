@@ -14,7 +14,6 @@ public class StateManager : MonoBehaviour
             this.previousForceDir = previousForceDir;
             currentGrid = previousGrid.GetCopy();
             currentGrid.ApplyForce(previousForceDir, out _);
-            Debug.Log("The grid "+ previousState?.GetKey() + "is now "+ GetKey() + " after applying "+previousForceDir);
         }
         public bool IsFinalState()
         {
@@ -68,10 +67,10 @@ public class StateManager : MonoBehaviour
 
     private void GameManager_OnGameStarted()
     {
-        startGrid = GridState.GetGridAsChar(GridManager.Instance.GetGameGrid());
-        //char[,] cGrid = GridState.GetGridAsChar(startGrid);
-        //Debug.Log(new GridState(null,default,startGrid).GetKey());
-        //SolveDFS(new GridState(null,default,startGrid));
+        GameGrid grid = GridManager.Instance.GetGameGrid();
+        startGrid = GridState.GetGridAsChar(grid);
+        Debug.Log(new GridState(null,default,grid).GetKey());
+        SolveBFS(new GridState(null,default,grid));
     }
 
     private List<GridState> GetAdjacentStates(GridState currentState)
@@ -89,6 +88,69 @@ public class StateManager : MonoBehaviour
             adjacentStates.Add(dirState);
         }
         return adjacentStates;
+    }
+
+    private bool SolveDFS(GridState currentState)
+    {
+        List<GridState> adjacentStates = GetAdjacentStates(currentState);
+        foreach (GridState adjacent in adjacentStates)
+        {
+            if (visitedGrids.ContainsKey(adjacent.GetKey()))
+                continue;
+            visitedGrids[adjacent.GetKey()] = true;
+            if (adjacent.IsFinalState())
+            {
+                RetractSolution(adjacent);
+                return true;
+            }
+            else if(SolveDFS(adjacent))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private bool SolveBFS(GridState startState)
+    {
+        visitedGrids[startState.GetKey()] = true;
+        Queue<GridState> queue = new Queue<GridState>();
+        queue.Enqueue(startState);
+        while (queue.Count > 0)
+        {
+            GridState currentState = queue.Dequeue();
+            if (currentState.IsFinalState())
+            {
+                RetractSolution(currentState);
+                return true;
+            }
+            List<GridState> adjacencies = GetAdjacentStates(currentState);
+            foreach(GridState adjacent in adjacencies)
+            {
+                if (!visitedGrids.ContainsKey(adjacent.GetKey()))
+                {
+                    queue.Enqueue(adjacent);
+                    visitedGrids[adjacent.GetKey()] = true;
+                }
+            }
+        }
+        return false;
+    }
+    private void RetractSolution(GridState finalState)
+    {
+        Debug.Log("SOLVED");
+        List<Vector2Int> solutionDirs = new List<Vector2Int>();
+        GridState currentState = finalState;
+        while (currentState != null)
+        {
+            solutionDirs.Add(currentState.previousForceDir);
+            currentState = currentState.previousState;
+        }
+        solutionDirs.Reverse();
+        AutoMover.Instance.SetForcesList(solutionDirs);
+        foreach (Vector2Int forceDir in solutionDirs)
+        {
+            Debug.Log(forceDir);
+        }
     }
 
 }

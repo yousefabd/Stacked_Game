@@ -84,7 +84,6 @@ public class GameGrid
                 {
                     if (IsIdentical(gameGrid[pos.x, pos.y], currentFacingBlockPos))
                     {
-                        Debug.Log(gameGrid[pos.x, pos.y] + " at " + pos + " is identical to the one at " + currentFacingBlockPos);
                         puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, true);
                         MovePuzzleBlock(pos, currentFacingBlockPos, true);
                         availablePositions.Enqueue(pos);
