@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,12 +50,21 @@ public class StateManager : MonoBehaviour
     }
     private char[,] startGrid;
     private Dictionary<string, bool> visitedGrids;
+    private int optimalMoves;
 
     private void Start()
     {
         visitedGrids = new Dictionary<string, bool>();
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
+        GameManager.Instance.OnRestart += GameManager_OnRestart;
+    }
 
+    private void GameManager_OnRestart()
+    {
+        if(startGrid != null)
+        {
+            GridManager.Instance.LoadGrid(startGrid);
+        }
     }
 
     private void Update()
@@ -64,15 +74,12 @@ public class StateManager : MonoBehaviour
             GridManager.Instance.LoadGrid(startGrid);
         }
     }
-
     private void GameManager_OnGameStarted()
     {
         GameGrid grid = GridManager.Instance.GetGameGrid();
         startGrid = GridState.GetGridAsChar(grid);
-        Debug.Log(new GridState(null,default,grid).GetKey());
-        SolveBFS(new GridState(null,default,grid));
+        SolveBFS(new GridState(null,default,grid),true);
     }
-
     private List<GridState> GetAdjacentStates(GridState currentState)
     {
         List<Vector2Int> forceDirs = new List<Vector2Int> {
@@ -90,7 +97,7 @@ public class StateManager : MonoBehaviour
         return adjacentStates;
     }
 
-    private bool SolveDFS(GridState currentState)
+    private bool SolveDFS(GridState currentState, bool move = false)
     {
         List<GridState> adjacentStates = GetAdjacentStates(currentState);
         foreach (GridState adjacent in adjacentStates)
@@ -100,7 +107,7 @@ public class StateManager : MonoBehaviour
             visitedGrids[adjacent.GetKey()] = true;
             if (adjacent.IsFinalState())
             {
-                RetractSolution(adjacent);
+                RetractSolution(adjacent,move);
                 return true;
             }
             else if(SolveDFS(adjacent))
@@ -110,7 +117,7 @@ public class StateManager : MonoBehaviour
         }
         return false;
     }
-    private bool SolveBFS(GridState startState)
+    private bool SolveBFS(GridState startState, bool move=false)
     {
         visitedGrids[startState.GetKey()] = true;
         Queue<GridState> queue = new Queue<GridState>();
@@ -120,7 +127,7 @@ public class StateManager : MonoBehaviour
             GridState currentState = queue.Dequeue();
             if (currentState.IsFinalState())
             {
-                RetractSolution(currentState);
+                optimalMoves = RetractSolution(currentState,move);
                 return true;
             }
             List<GridState> adjacencies = GetAdjacentStates(currentState);
@@ -135,7 +142,7 @@ public class StateManager : MonoBehaviour
         }
         return false;
     }
-    private void RetractSolution(GridState finalState)
+    private int RetractSolution(GridState finalState, bool move=false)
     {
         Debug.Log("SOLVED");
         List<Vector2Int> solutionDirs = new List<Vector2Int>();
@@ -146,11 +153,15 @@ public class StateManager : MonoBehaviour
             currentState = currentState.previousState;
         }
         solutionDirs.Reverse();
-        AutoMover.Instance.SetForcesList(solutionDirs);
-        foreach (Vector2Int forceDir in solutionDirs)
-        {
-            Debug.Log(forceDir);
-        }
+        if (move)
+            AutoMover.Instance.SetForcesList(solutionDirs);
+        return solutionDirs.Count - 1;
     }
 
+    public int GetOptimalMoves()
+    {
+        GameGrid grid = GridManager.Instance.GetGameGrid();
+        SolveBFS(new GridState(null, default, grid));
+        return optimalMoves;
+    }
 }

@@ -10,15 +10,33 @@ public class ColorsListUI : MonoBehaviour
     [SerializeField] private List<PuzzleBlockSO> coloredBlocksList;
     private Dictionary<PuzzleBlockSO, Transform> puzzleBlockSOTransform;
     private static event Action OnSelectPuzzleBlock;
+    private static event Action<int> OnSetColorsCount;
     private int colorsCount = 1;
-    private void Start()
+
+    private void Awake()
     {
         OnSelectPuzzleBlock += UpdateVisuals;
+        OnSetColorsCount += SetButtons;
+    }
+    private void Start()
+    {
+        GameManager.Instance.OnEdit += GameManager_OnEdit;
+    }
+
+    private void GameManager_OnEdit()
+    {
+        OnSelectPuzzleBlock -= UpdateVisuals;
+        OnSetColorsCount -= SetButtons;
+    }
+
+    private void SetButtons(int count)
+    {
+        colorsCount = count;
         puzzleBlockSOTransform = new Dictionary<PuzzleBlockSO, Transform>();
         Transform buttonTemplate = transform.Find("ButtonTemplate");
         buttonTemplate.gameObject.SetActive(false);
         int index = 0;
-        foreach (PuzzleBlockSO puzzleBlock in coloredBlocksList) 
+        foreach (PuzzleBlockSO puzzleBlock in coloredBlocksList)
         {
             if (index >= colorsCount)
                 break;
@@ -54,8 +72,8 @@ public class ColorsListUI : MonoBehaviour
     {
         return coloredBlocksList.Count;
     }
-    public void SetColorsCount(int count)
+    public static void SetColorsCount(int count)
     {
-        colorsCount = count;
+        OnSetColorsCount?.Invoke(count);
     }
 }

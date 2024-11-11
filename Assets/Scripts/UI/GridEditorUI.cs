@@ -7,13 +7,19 @@ using UnityEngine.UI;
 
 public class GridEditorUI : MonoBehaviour
 {
+
+    public static GridEditorUI Instance { get; private set; }
     [SerializeField] private List<PropertyElementUI> properties;
-    [SerializeField] private ColorsListUI colorsListUI;
     [SerializeField] private Button confirm;
+
+    public event Action OnConfirm;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
-        PuzzleBlockEditorUI.Instance.gameObject.SetActive(false);
         foreach(PropertyElementUI property in properties)
         {
             property.up.onClick.AddListener(() =>
@@ -33,9 +39,8 @@ public class GridEditorUI : MonoBehaviour
             int width = int.Parse(properties[1].value.text);
             int colors = int.Parse(properties[2].value.text);
             GridManager.Instance.ConfirmWorldGridSizes(width, height);
-            colorsListUI.SetColorsCount(colors);
-            PuzzleBlockEditorUI.Instance.gameObject.SetActive(true);
-            gameObject.SetActive(false);
+            ColorsListUI.SetColorsCount(colors);
+            OnConfirm?.Invoke();
         });
     }
 
@@ -45,6 +50,5 @@ public class GridEditorUI : MonoBehaviour
         int width = int.Parse(properties[1].value.text);
         int colors = int.Parse(properties[2].value.text);
         GridManager.Instance.SetWorldGridSizes(width, height);
-        colorsListUI.SetColorsCount(colors);
     }
 }

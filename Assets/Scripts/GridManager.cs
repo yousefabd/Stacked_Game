@@ -14,11 +14,13 @@ public class GridManager : MonoBehaviour
     private List<PuzzleBlockSO> initialBlocks;
 
     public event Action OnGameOver;
+    public event Action OnMakeMove;
 
     private GameGrid gameGrid;
     private void Awake()
     {
         Instance = this;
+        Debug.Log("Awake");
         initialBlocks = new List<PuzzleBlockSO>();
     }
 
@@ -43,10 +45,8 @@ public class GridManager : MonoBehaviour
     {
         if (gridPosition.x < 0 || gridPosition.x >= width ||
            gridPosition.y < 0 || gridPosition.y >= height ||
-           EventSystem.current.IsPointerOverGameObject() ||
            puzzleBlockSO == null)
             return;
-
         Transform puzzleBlockTransform = Instantiate(puzzleBlockSO.prefab, GridToWorldPosition(gridPosition), Quaternion.identity);
         PuzzleBlock puzzleBlock = puzzleBlockTransform.GetComponent<PuzzleBlock>();
 
@@ -110,6 +110,7 @@ public class GridManager : MonoBehaviour
 
     public void SyncPuzzleBlocks(Dictionary<PuzzleBlock, MoveAction> puzzleBlockMoves)
     {
+        OnMakeMove?.Invoke();
         foreach (PuzzleBlock puzzleBlock in puzzleBlockMoves.Keys)
         {
             MoveAction moveAction = puzzleBlockMoves[puzzleBlock];

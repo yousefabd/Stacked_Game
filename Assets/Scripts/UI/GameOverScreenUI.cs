@@ -8,19 +8,13 @@ public class GameOverScreenUI : MonoBehaviour
     private enum GameState { PLAYING, OVER};
     private GameState currentGameState;
     private float gameOverCountDown;
-
-    [SerializeField] private Button restartButton;
     private void Start()
     {
         GridManager.Instance.OnGameOver += GridManager_OnGameOver;
+        GameManager.Instance.OnRestart += GameManager_OnRestart;
         currentGameState = GameState.PLAYING;
         gameOverCountDown = 1f;
-        restartButton.onClick.AddListener(() =>
-        {
-            Debug.Log("restart");
-            gameObject.SetActive(false);
-            Time.timeScale = 1f;
-        });
+
         Hide();
     }
     private void Update()
@@ -39,6 +33,8 @@ public class GameOverScreenUI : MonoBehaviour
         gameOverCountDown -= Time.deltaTime;
         if (gameOverCountDown < 0f) {
             Show();
+            currentGameState = GameState.PLAYING;
+            gameOverCountDown = 1f;
             Time.timeScale = 0f;
         }
     }
@@ -47,12 +43,17 @@ public class GameOverScreenUI : MonoBehaviour
         currentGameState = GameState.OVER;
     }
 
+    private void GameManager_OnRestart()
+    {
+        Hide();
+    }
     private void Hide()
     {
         transform.localScale= Vector3.zero;
     }
     private void Show()
     {
+        Debug.Log("SHow");
         transform.localScale = Vector3.one;
     }
 }
