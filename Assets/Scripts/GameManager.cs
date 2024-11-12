@@ -28,28 +28,29 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         HideLists();
-        GridEditorUI.Instance.gameObject.SetActive(true);
+        GridEditorUI.Instance.gameObject.transform.localScale = Vector3.one;
         GridEditorUI.Instance.OnConfirm += GridEditor_OnConfirm;
         playGame.onClick.AddListener(() =>
         {
             currentState = GameState.PLAYING;
             HideLists();
-            InGameOptionsUI.Instance.gameObject.SetActive(true);
+            InGameOptionsUI.Instance.gameObject.transform.localScale = Vector3.one;
             OnGameStarted?.Invoke();
+            Debug.Log("Play game button pressed");
         });
     }
 
     private void GridEditor_OnConfirm()
     {
         HideLists();
-        PuzzleBlockEditorUI.Instance.gameObject.SetActive(true);
+        PuzzleBlockEditorUI.Instance.gameObject.transform.localScale = Vector3.one;
     }
 
     private void HideLists()
     {
-        PuzzleBlockEditorUI.Instance.gameObject.SetActive(false);
-        InGameOptionsUI.Instance.gameObject.SetActive(false);
-        GridEditorUI.Instance.gameObject.SetActive(false);
+        PuzzleBlockEditorUI.Instance.transform.localScale = Vector3.zero;
+        InGameOptionsUI.Instance.transform.localScale = Vector3.zero;
+        GridEditorUI.Instance.transform.localScale = Vector3.zero;
 
     }
 
@@ -66,9 +67,9 @@ public class GameManager : MonoBehaviour
 
     public void Edit()
     {
+        OnEdit?.Invoke();
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-        OnEdit?.Invoke();
     }
 
 }

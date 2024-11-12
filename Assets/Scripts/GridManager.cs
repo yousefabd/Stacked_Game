@@ -20,7 +20,6 @@ public class GridManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Debug.Log("Awake");
         initialBlocks = new List<PuzzleBlockSO>();
     }
 

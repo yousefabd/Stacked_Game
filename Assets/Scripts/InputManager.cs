@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
 
     private float maxInputCooldown = 0.4f;
     private float currentInputCooldown;
+    private bool canMove = true;
     private Camera mainCamera;
     private void Awake()
     {
@@ -20,7 +21,15 @@ public class InputManager : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        StrategyManager.Instance.OnConfirmStrategy += StrategyManager_OnConfirmStrategy;
     }
+
+    private void StrategyManager_OnConfirmStrategy(string strategy)
+    {
+        if(strategy != string.Empty)
+            canMove = false;
+    }
+
     void Update()
     {
         currentInputCooldown -= Time.deltaTime;
@@ -46,7 +55,7 @@ public class InputManager : MonoBehaviour
             moveDir.x -= 1;
         }
         if (currentInputCooldown > 0) { }
-        else if (moveDir != Vector2Int.zero)
+        else if (moveDir != Vector2Int.zero && canMove)
         {
             currentInputCooldown = maxInputCooldown;
             if (moveDir.y != 0 && moveDir.x != 0)

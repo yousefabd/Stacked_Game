@@ -1,22 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameOverScreenUI : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI wonMessage;
     private enum GameState { PLAYING, OVER};
     private GameState currentGameState;
     private float gameOverCountDown;
+
+
     private void Start()
     {
         GridManager.Instance.OnGameOver += GridManager_OnGameOver;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
+        StrategyManager.Instance.OnConfirmStrategy += StrategyManager_OnConfirmStrategy;
         currentGameState = GameState.PLAYING;
         gameOverCountDown = 1f;
 
         Hide();
     }
+
+    private void StrategyManager_OnConfirmStrategy(string strategy)
+    {
+        if (strategy.Equals(string.Empty))
+            wonMessage.text = "YOU WON!";
+        else
+            wonMessage.text = "AI WON!";
+    }
+
     private void Update()
     {
         switch (currentGameState)
@@ -53,7 +68,6 @@ public class GameOverScreenUI : MonoBehaviour
     }
     private void Show()
     {
-        Debug.Log("SHow");
         transform.localScale = Vector3.one;
     }
 }

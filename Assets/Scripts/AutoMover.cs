@@ -26,7 +26,18 @@ public class AutoMover : MonoBehaviour
     private void Start()
     {
         currentMoveState = AutoMoveState.IDLE;
+        StateManager.Instance.OnFindSolution += StateManager_OnFindSolution;
     }
+
+    private void StateManager_OnFindSolution(List<Vector2Int> solution,bool move)
+    {
+        if (!move)
+            return;
+        SetForcesList(solution);
+        Debug.Log(solution.Count);
+
+    }
+
     private void Update()
     {
         switch (currentMoveState)
@@ -57,7 +68,7 @@ public class AutoMover : MonoBehaviour
         OnAutoMove?.Invoke(new Vector2Int(forceDir.y, -1 * forceDir.x));
         currentMoveIndex++;
     }
-    public void SetForcesList(List<Vector2Int > forcesList)
+    private void SetForcesList(List<Vector2Int > forcesList)
     {
         currentForcesList = forcesList;
         currentMoveIndex = 0;
