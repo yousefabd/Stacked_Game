@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StrategySelectorUI : MonoBehaviour
 {
     public static StrategySelectorUI Instance { get; private set; }
-    private List<string> strategies = new List<string> { "BFS","DFS" };
+    private List<string> strategies = new List<string> { "BFS","DFSR" , "DFS" };
     Dictionary<Toggle, string> toggleNames;
     [SerializeField] private Button confirmButton;
     private void Awake()

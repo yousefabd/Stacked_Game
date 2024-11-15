@@ -11,12 +11,13 @@ public class StateManager : MonoBehaviour
         public GridState previousState;
         public Vector2Int previousForceDir;
         public GameGrid currentGrid;
+        public int cost = int.MaxValue;
         public GridState(GridState previousState,Vector2Int previousForceDir,GameGrid previousGrid)
         {
             this.previousState = previousState;
             this.previousForceDir = previousForceDir;
             currentGrid = previousGrid.GetCopy();
-            currentGrid.ApplyForce(previousForceDir, out _);
+            cost = currentGrid.ApplyForce(previousForceDir, out _);
         }
         public bool IsFinalState()
         {
@@ -106,8 +107,11 @@ public class StateManager : MonoBehaviour
             return;
         }
         visitedGrids.Clear();
+        System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
         List<Vector2Int> solution = methodInfo.Invoke(this, new object[] {startState}) as List<Vector2Int>;
-        Debug.Log(solution.Count);
+        stopwatch.Stop();
+        Debug.Log("Solved in: "+ stopwatch.ElapsedMilliseconds/1000f +"s");
         OnFindSolution?.Invoke(solution,true);
 
     }
@@ -128,9 +132,8 @@ public class StateManager : MonoBehaviour
         return adjacentStates;
     }
 
-    private List<Vector2Int> SolveDFS(GridState currentState)
+    private List<Vector2Int> SolveDFSR(GridState currentState)
     {
-        Debug.Log("DFS");
         List<GridState> adjacentStates = GetAdjacentStates(currentState);
         foreach (GridState adjacent in adjacentStates)
         {
@@ -141,15 +144,34 @@ public class StateManager : MonoBehaviour
             {
                 return RetractSolution(adjacent);
             }
-            List<Vector2Int> directions = SolveDFS(adjacent);
+            List<Vector2Int> directions = SolveDFSR(adjacent);
             if (directions.Count > 0)
                 return directions;
 ;        }
         return new List<Vector2Int>();
     }
+    private List<Vector2Int> SolveDFS(GridState startState)
+    {
+        Stack<GridState> stack = new Stack<GridState>();
+        stack.Push(startState);
+        while (stack.Count > 0)
+        {
+            GridState currentState = stack.Pop();
+            if (visitedGrids.ContainsKey(currentState.GetKey()))
+                continue;
+            visitedGrids[currentState.GetKey()] = true;
+            if(currentState.IsFinalState())
+                return RetractSolution(currentState);
+            List<GridState> adjacentStates = GetAdjacentStates(currentState);
+            foreach(GridState adjacent in adjacentStates)
+            {
+                stack.Push(adjacent);
+            }
+        }
+        return new List<Vector2Int>();
+    } 
     private List<Vector2Int> SolveBFS(GridState startState)
     {
-        Debug.Log("BFS");
         visitedGrids[startState.GetKey()] = true;
         Queue<GridState> queue = new Queue<GridState>();
         queue.Enqueue(startState);
@@ -172,6 +194,7 @@ public class StateManager : MonoBehaviour
         }
         return new List<Vector2Int>();
     }
+
     private List<Vector2Int> RetractSolution(GridState finalState)
     {
         List<Vector2Int> solutionDirs = new List<Vector2Int>();

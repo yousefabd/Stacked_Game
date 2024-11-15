@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
             HideLists();
             InGameOptionsUI.Instance.gameObject.transform.localScale = Vector3.one;
             OnGameStarted?.Invoke();
-            Debug.Log("Play game button pressed");
         });
     }
 

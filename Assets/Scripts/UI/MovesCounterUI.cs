@@ -40,11 +40,10 @@ public class MovesCounterUI : MonoBehaviour
 
     private void GameManager_OnGameStarted()
     {
-        Debug.Log("Reset counter");
         currentMovesText.text = currentMoves.ToString();
     }
 
-    private void Increase()
+    private void Increase(Vector3 arg)
     {
         currentMoves++;
         if(currentMoves > optimalMoves && currentStarIndex >= 0)

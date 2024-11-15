@@ -17,11 +17,17 @@ public class GameOverScreenUI : MonoBehaviour
     {
         GridManager.Instance.OnGameOver += GridManager_OnGameOver;
         GameManager.Instance.OnRestart += GameManager_OnRestart;
+        GameManager.Instance.OnEdit += GameManager_OnEdit;
         StrategyManager.Instance.OnConfirmStrategy += StrategyManager_OnConfirmStrategy;
         currentGameState = GameState.PLAYING;
         gameOverCountDown = 1f;
 
         Hide();
+    }
+
+    private void GameManager_OnEdit()
+    {
+        Time.timeScale = 1;
     }
 
     private void StrategyManager_OnConfirmStrategy(string strategy)
@@ -60,6 +66,7 @@ public class GameOverScreenUI : MonoBehaviour
 
     private void GameManager_OnRestart()
     {
+        Time.timeScale = 1f;
         Hide();
     }
     private void Hide()

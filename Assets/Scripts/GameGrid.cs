@@ -8,6 +8,7 @@ public class GameGrid
     private readonly int height;
     private readonly PuzzleBlock[,] gameGrid;
 
+
     public event Action OnGameOver;
     public event Action<Dictionary<PuzzleBlock,MoveAction>> OnSyncMoves;
 
@@ -60,11 +61,12 @@ public class GameGrid
         }
         return (blocksCount == colors.Count());
     }
-    public void ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
+    public int ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
     {
+        int fusionCost = int.MaxValue;
         puzzleBlockMoves = new Dictionary<PuzzleBlock,MoveAction>();
         if (forceDir == Vector2Int.zero)
-            return;
+            return 0;
         int width = gameGrid.GetLength(0);
         int height = gameGrid.GetLength(1);
         int outerLimit = (forceDir.y == 0 ? height : width);
@@ -87,6 +89,7 @@ public class GameGrid
                         puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, true);
                         MovePuzzleBlock(pos, currentFacingBlockPos, true);
                         availablePositions.Enqueue(pos);
+                        fusionCost--;
                     }
                     else if (availablePositions.Any())
                     {
@@ -112,6 +115,7 @@ public class GameGrid
                 }
             }
         }
+        return fusionCost;
     }
     private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition, bool destroy = false)
     {

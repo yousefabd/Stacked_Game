@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,11 +11,10 @@ public class GridManager : MonoBehaviour
     private int height = 4;
     [SerializeField] private float cellSize = 1;
     private Vector2 originPosition;
-    [SerializeField] private PuzzleBlock obstacleBlock;
     private List<PuzzleBlockSO> initialBlocks;
 
     public event Action OnGameOver;
-    public event Action OnMakeMove;
+    public event Action<Vector3> OnMakeMove;
 
     private GameGrid gameGrid;
     private void Awake()
@@ -109,7 +109,7 @@ public class GridManager : MonoBehaviour
 
     public void SyncPuzzleBlocks(Dictionary<PuzzleBlock, MoveAction> puzzleBlockMoves)
     {
-        OnMakeMove?.Invoke();
+        OnMakeMove?.Invoke(Vector3.zero);
         foreach (PuzzleBlock puzzleBlock in puzzleBlockMoves.Keys)
         {
             MoveAction moveAction = puzzleBlockMoves[puzzleBlock];

@@ -13,7 +13,7 @@ public class AutoMover : MonoBehaviour
     }
     private AutoMoveState currentMoveState;
     private int currentMoveIndex;
-    private float maxTimeCooldown = 1f;
+    private float maxTimeCooldown = 0.5f;
     private float currentTimeCooldown = 1f;
     private List<Vector2Int> currentForcesList;
 
@@ -34,8 +34,6 @@ public class AutoMover : MonoBehaviour
         if (!move)
             return;
         SetForcesList(solution);
-        Debug.Log(solution.Count);
-
     }
 
     private void Update()
