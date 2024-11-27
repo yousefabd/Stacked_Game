@@ -47,7 +47,6 @@ public class GameGrid
     }
     public bool IsGameOver()
     {
-        int blocksCount = 0;
         HashSet<char> colors = new HashSet<char>();
         for(int i = 0; i < width; i++)
         {
@@ -55,12 +54,11 @@ public class GameGrid
             {
                 if (IsColoredBlock(new Vector2Int(i, j)))
                 {
-                    blocksCount++;
                     colors.Add(gameGrid[i, j].GetCharSymbol());
                 }
             }
         }
-        return (blocksCount == colors.Count());
+        return (currentBlocksCount == colors.Count());
     }
     public void ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
     {
@@ -141,7 +139,8 @@ public class GameGrid
         if (!IsClear(new Vector2Int(x, y)))
             return false;
         gameGrid[x, y] = puzzleBlock;
-        currentBlocksCount++;
+        if(!puzzleBlock.IsBlock())
+            currentBlocksCount++;
         return true;
     }
     public PuzzleBlock[,] GetGrid()
@@ -177,5 +176,10 @@ public class GameGrid
         GameGrid copyGameGrid = new GameGrid(width, height);
         copyGameGrid.SetGrid(GetGrid());
         return copyGameGrid;
+    }
+
+    public int GetCurrentBlocksCount()
+    {
+        return currentBlocksCount;
     }
 }

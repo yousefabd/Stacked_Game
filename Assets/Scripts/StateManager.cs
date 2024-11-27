@@ -62,6 +62,22 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    private struct HCNode
+    {
+        public GridState state;
+        public int totalCost;
+        public int moveCost;
+        public HCNode(GridState state)
+        {
+            this.state=state;
+            this.totalCost = 0;
+            this.moveCost= this.state.currentGrid.GetCurrentBlocksCount();
+        }
+        public void SetCost(int cost)
+        {
+            this.totalCost = cost;
+        }
+    }
     public static StateManager Instance { get; private set; } 
 
     private char[,] startGrid;
@@ -238,6 +254,44 @@ public class StateManager : MonoBehaviour
                     distance[adjacencies[i]] = nextCost;
                     visitedGrids[adjacencies[i].GetKey()] = true;
                     p_queue.Enqueue(new UCSNode(adjacencies[i], nextCost));
+                } 
+            }
+        }
+        return new List<Vector2Int>();
+    }
+    private List<Vector2Int> SolveHC(GridState startState)
+    {
+        Dictionary<GridState, int> distance = new Dictionary<GridState, int>();
+        PriorityQueue<HCNode, int> p_queue = new PriorityQueue<HCNode, int>(x => x.moveCost);
+
+        distance[startState] = 0;
+        visitedGrids[startState.GetKey()] = true;
+        HCNode startNode = new HCNode(startState);
+        startNode.moveCost = 0;
+        p_queue.Enqueue(startNode);
+        while (!p_queue.Empty())
+        {
+            HCNode currentNode = p_queue.Dequeue();
+            if (distance[currentNode.state] < currentNode.moveCost)
+                continue;
+            if (currentNode.state.IsFinalState())
+            {
+                return RetractSolution(currentNode.state);
+            }
+            List<GridState> adjacencies = GetAdjacentStates(currentNode.state);
+            foreach(GridState adjacent in adjacencies)
+            {
+                HCNode adjacentNode = new HCNode(adjacent);
+                int adjacentCost = 0;
+                distance.TryGetValue(adjacent, out adjacentCost);
+                if (!visitedGrids.ContainsKey(adjacent.GetKey()) ||
+                    currentNode.totalCost + adjacentNode.moveCost < adjacentCost)
+                {
+                    int nextCost = currentNode.totalCost + adjacentNode.moveCost;
+                    distance[adjacent] = nextCost;
+                    visitedGrids[adjacent.GetKey()] = true;
+                    adjacentNode.SetCost(nextCost);
+                    p_queue.Enqueue(adjacentNode);
                 } 
             }
         }
