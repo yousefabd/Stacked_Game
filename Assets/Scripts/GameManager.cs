@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public event Action OnEdit;
     private enum GameState
     {
-        EDITING,PLAYING
+        EDITING,PLAYING,OVER
     }
     private GameState currentState;
 
@@ -30,13 +30,22 @@ public class GameManager : MonoBehaviour
         HideLists();
         GridEditorUI.Instance.gameObject.transform.localScale = Vector3.one;
         GridEditorUI.Instance.OnConfirm += GridEditor_OnConfirm;
+        GridManager.Instance.OnGameOver += GridManager_OnGameOver;
         playGame.onClick.AddListener(() =>
         {
-            currentState = GameState.PLAYING;
-            HideLists();
-            InGameOptionsUI.Instance.gameObject.transform.localScale = Vector3.one;
-            OnGameStarted?.Invoke();
+            if (GridManager.Instance.IsValid())
+            {
+                currentState = GameState.PLAYING;
+                HideLists();
+                InGameOptionsUI.Instance.gameObject.transform.localScale = Vector3.one;
+                OnGameStarted?.Invoke();
+            }
         });
+    }
+
+    private void GridManager_OnGameOver()
+    {
+        currentState = GameState.OVER;
     }
 
     private void GridEditor_OnConfirm()
@@ -61,6 +70,7 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         OnRestart?.Invoke();
+        currentState = GameState.PLAYING;
         Time.timeScale = 1f;
     }
 

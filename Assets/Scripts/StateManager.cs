@@ -11,13 +11,12 @@ public class StateManager : MonoBehaviour
         public GridState previousState;
         public Vector2Int previousForceDir;
         public GameGrid currentGrid;
-        public int cost = int.MaxValue;
-        public GridState(GridState previousState,Vector2Int previousForceDir,GameGrid previousGrid)
+        public GridState(GridState previousState, Vector2Int previousForceDir, GameGrid previousGrid)
         {
             this.previousState = previousState;
             this.previousForceDir = previousForceDir;
             currentGrid = previousGrid.GetCopy();
-            cost = currentGrid.ApplyForce(previousForceDir, out _);
+            currentGrid.ApplyForce(previousForceDir, out _);
         }
         public bool IsFinalState()
         {
@@ -52,6 +51,16 @@ public class StateManager : MonoBehaviour
         }
     }
 
+    private struct UCSNode
+    {
+        public GridState state;
+        public int cost;
+        public UCSNode(GridState state, int cost)
+        {
+            this.state = state;
+            this.cost = cost;
+        }
+    }
 
     public static StateManager Instance { get; private set; } 
 
@@ -111,7 +120,8 @@ public class StateManager : MonoBehaviour
         stopwatch.Start();
         List<Vector2Int> solution = methodInfo.Invoke(this, new object[] {startState}) as List<Vector2Int>;
         stopwatch.Stop();
-        Debug.Log("Solved in: "+ stopwatch.ElapsedMilliseconds/1000f +"s");
+        Debug.Log("Solved using " + currentStrategy + " in: "+ stopwatch.ElapsedMilliseconds/1000f +"s");
+        Debug.Log("Visited states: " + visitedGrids.Count);
         OnFindSolution?.Invoke(solution,true);
 
     }
@@ -154,14 +164,17 @@ public class StateManager : MonoBehaviour
     {
         Stack<GridState> stack = new Stack<GridState>();
         stack.Push(startState);
+
         while (stack.Count > 0)
         {
             GridState currentState = stack.Pop();
             if (visitedGrids.ContainsKey(currentState.GetKey()))
                 continue;
             visitedGrids[currentState.GetKey()] = true;
-            if(currentState.IsFinalState())
+            if (currentState.IsFinalState())
+            {
                 return RetractSolution(currentState);
+            }
             List<GridState> adjacentStates = GetAdjacentStates(currentState);
             foreach(GridState adjacent in adjacentStates)
             {
@@ -194,7 +207,42 @@ public class StateManager : MonoBehaviour
         }
         return new List<Vector2Int>();
     }
+    private List<Vector2Int> SolveUCS(GridState startState)
+    {
+        int[] movementCosts = new int [4]{ 1/*up*/, 1/*down*/, 2/*left*/, 3/*right*/ };
+        Dictionary<GridState,int> distance = new Dictionary<GridState, int> ();
+        PriorityQueue<UCSNode, int> p_queue = new PriorityQueue<UCSNode, int>(x => x.cost);
 
+        distance[startState] = 0;
+        visitedGrids[startState.GetKey()] = true;
+        p_queue.Enqueue(new UCSNode(startState,0));
+        while (!p_queue.Empty())
+        {
+            UCSNode currentNode = p_queue.Dequeue();
+            if (distance[currentNode.state] < currentNode.cost)
+                continue;
+            if (currentNode.state.IsFinalState())
+            {
+                return RetractSolution(currentNode.state);
+            }
+            List<GridState> adjacencies = GetAdjacentStates(currentNode.state);
+            for(int i=0;i<adjacencies.Count;i++)
+            {
+                int movementCost = movementCosts[i];
+                int adjacentCost = 0;
+                distance.TryGetValue(adjacencies[i], out adjacentCost);
+                if (!visitedGrids.ContainsKey(adjacencies[i].GetKey())||
+                    currentNode.cost+movementCost<adjacentCost) 
+                {
+                    int nextCost = currentNode.cost + movementCost;
+                    distance[adjacencies[i]] = nextCost;
+                    visitedGrids[adjacencies[i].GetKey()] = true;
+                    p_queue.Enqueue(new UCSNode(adjacencies[i], nextCost));
+                } 
+            }
+        }
+        return new List<Vector2Int>();
+    }
     private List<Vector2Int> RetractSolution(GridState finalState)
     {
         List<Vector2Int> solutionDirs = new List<Vector2Int>();

@@ -7,6 +7,7 @@ public class GameGrid
     private readonly int width;
     private readonly int height;
     private readonly PuzzleBlock[,] gameGrid;
+    private int currentBlocksCount = 0;
 
 
     public event Action OnGameOver;
@@ -61,12 +62,11 @@ public class GameGrid
         }
         return (blocksCount == colors.Count());
     }
-    public int ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
+    public void ApplyForce(Vector2Int forceDir,out Dictionary<PuzzleBlock,MoveAction> puzzleBlockMoves)
     {
-        int fusionCost = int.MaxValue;
         puzzleBlockMoves = new Dictionary<PuzzleBlock,MoveAction>();
         if (forceDir == Vector2Int.zero)
-            return 0;
+            return;
         int width = gameGrid.GetLength(0);
         int height = gameGrid.GetLength(1);
         int outerLimit = (forceDir.y == 0 ? height : width);
@@ -89,7 +89,7 @@ public class GameGrid
                         puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, true);
                         MovePuzzleBlock(pos, currentFacingBlockPos, true);
                         availablePositions.Enqueue(pos);
-                        fusionCost--;
+                        currentBlocksCount--;
                     }
                     else if (availablePositions.Any())
                     {
@@ -115,7 +115,6 @@ public class GameGrid
                 }
             }
         }
-        return fusionCost;
     }
     private void MovePuzzleBlock(Vector2Int oldPosition, Vector2Int newPosition, bool destroy = false)
     {
@@ -142,6 +141,7 @@ public class GameGrid
         if (!IsClear(new Vector2Int(x, y)))
             return false;
         gameGrid[x, y] = puzzleBlock;
+        currentBlocksCount++;
         return true;
     }
     public PuzzleBlock[,] GetGrid()
@@ -160,13 +160,17 @@ public class GameGrid
     }
     public void SetGrid(PuzzleBlock[,] newGrid)
     {
+        currentBlocksCount = 0;
         for(int i = 0; i < newGrid.GetLength(0); i++)
         {
             for (int j = 0; j < newGrid.GetLength(1); j++)
             {
                 gameGrid[i,j] = newGrid[i, j];
+                if (IsColoredBlock(new Vector2Int(i, j)))
+                    currentBlocksCount++;
             }
         }
+
     }
     public GameGrid GetCopy()
     {

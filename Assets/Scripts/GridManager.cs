@@ -107,6 +107,10 @@ public class GridManager : MonoBehaviour
 
     }
 
+    public bool IsValid()
+    {
+        return !gameGrid.IsGameOver();
+    }
     public void SyncPuzzleBlocks(Dictionary<PuzzleBlock, MoveAction> puzzleBlockMoves)
     {
         OnMakeMove?.Invoke(Vector3.zero);
@@ -141,4 +145,6 @@ public class GridManager : MonoBehaviour
         gameGrid.OnGameOver += GameGrid_OnGameOver;
         gameGrid.OnSyncMoves += SyncPuzzleBlocks;
     }
+
+
 }

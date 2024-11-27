@@ -20,7 +20,6 @@ public class SoundManager : MonoBehaviour
 
     private void GridManager_OnGameOver()
     {
-        Debug.Log(this + " game over");
         StartCoroutine(PlaySound(youWin, transform.position,0.7f, 1f));
     }
 

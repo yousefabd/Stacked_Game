@@ -34,6 +34,21 @@ public class AutoMover : MonoBehaviour
         if (!move)
             return;
         SetForcesList(solution);
+        string solutionString = "";
+        foreach (Vector2Int forceDir in solution)
+        {
+            string forceString = "";
+            if (forceDir.x == -1)
+                forceString = "UP";
+            else if (forceDir.y == -1)
+                forceString = "LEFT";
+            else if (forceDir.x == 1)
+                forceString = "DOWN";
+            else
+                forceString = "RIGHT";
+            solutionString += forceString + " =>";
+        }
+        Debug.Log(solutionString + "END!");
     }
 
     private void Update()
