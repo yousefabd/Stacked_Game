@@ -26,7 +26,14 @@ public class AutoMover : MonoBehaviour
     private void Start()
     {
         currentMoveState = AutoMoveState.IDLE;
+        currentForcesList = new List<Vector2Int>();
         StateManager.Instance.OnFindSolution += StateManager_OnFindSolution;
+        GameManager.Instance.OnRestart += GameManager_OnRestart;
+    }
+
+    private void GameManager_OnRestart()
+    {
+        SetForcesList(currentForcesList);
     }
 
     private void StateManager_OnFindSolution(List<Vector2Int> solution,bool move)
@@ -74,7 +81,6 @@ public class AutoMover : MonoBehaviour
         {
             currentMoveState = AutoMoveState.IDLE;
             currentMoveIndex = 0;
-            currentForcesList.Clear();
             return;
         }
         Vector2Int forceDir = currentForcesList[currentMoveIndex];

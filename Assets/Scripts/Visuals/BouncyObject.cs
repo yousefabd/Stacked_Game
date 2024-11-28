@@ -67,6 +67,10 @@ public class BouncyObject : MonoBehaviour
     private void PuzzleBlock_OnReachedDestination()
     {
         currentBouncingState = BouncingState.BOUNCING;
+        currentBounceTime = 0f;
+        currentBounceCount = 0;
+        currentBounceHeight = bounceHeight;
+        currentBounceDuration = bounceDuration;
     }
 
     private void PuzzleBlock_OnSetMoveDir(Vector2 moveDir)

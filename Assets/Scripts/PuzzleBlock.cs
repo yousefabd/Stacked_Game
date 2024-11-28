@@ -66,7 +66,6 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
     public void SetPosition(Vector3 newPosition)
     {
         currentTargetPosition = newPosition;
-        Debug.Log(Vector3.Normalize(newPosition - transform.position));
         SetState(PuzzleBlockState.MOVING);
         blockSpeed = Vector2.Distance(transform.position, currentTargetPosition)/puzzleBlockSO.movementDuration;
         Vector2 moveDir = Vector3.Normalize(newPosition - transform.position);
