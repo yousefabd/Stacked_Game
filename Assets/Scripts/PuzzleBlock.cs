@@ -13,7 +13,11 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
 
     private PuzzleBlockState currentPuzzleBlockState;
     private Vector3 currentTargetPosition;
+    private float blockSpeed;
     private bool destruct;
+
+    public event Action<Vector2> OnSetMoveDir;
+    public event Action OnReachedDestination;
 
     private void Start()
     {
@@ -44,10 +48,11 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
     }
     public void Move()
     {
-        transform.position = Vector3.Lerp(transform.position, currentTargetPosition, puzzleBlockSO.blockSpeed*Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, currentTargetPosition, blockSpeed*Time.deltaTime);
         if (Vector3.Distance(transform.position, currentTargetPosition) <= 0.01)
         {
             currentPuzzleBlockState = PuzzleBlockState.IDLE;
+            OnReachedDestination?.Invoke();
             if(destruct)
                 Destroy(gameObject);
         }
@@ -61,7 +66,11 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
     public void SetPosition(Vector3 newPosition)
     {
         currentTargetPosition = newPosition;
+        Debug.Log(Vector3.Normalize(newPosition - transform.position));
         SetState(PuzzleBlockState.MOVING);
+        blockSpeed = Vector2.Distance(transform.position, currentTargetPosition)/puzzleBlockSO.movementDuration;
+        Vector2 moveDir = Vector3.Normalize(newPosition - transform.position);
+        OnSetMoveDir?.Invoke(moveDir);
     }
     public void Destruct()
     {

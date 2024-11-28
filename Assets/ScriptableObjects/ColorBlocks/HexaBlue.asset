@@ -15,5 +15,5 @@ MonoBehaviour:
   stringName: HexaBlue
   charSymbol: 70
   prefab: {fileID: 5430974103225047771, guid: 605f2cadac2c1a64da4e1f435c75c6e5, type: 3}
-  blockSpeed: 10
+  movementDuration: 0.2
   sprite: {fileID: 21300000, guid: 465f8e75a2c7d99498089eedfb255057, type: 3}

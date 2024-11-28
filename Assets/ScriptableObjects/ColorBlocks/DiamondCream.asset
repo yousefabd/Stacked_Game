@@ -15,5 +15,5 @@ MonoBehaviour:
   stringName: DiamondCream
   charSymbol: 65
   prefab: {fileID: 4317358215015264655, guid: 72728fef8967e704ca5fabc16e76bff5, type: 3}
-  blockSpeed: 10
+  movementDuration: 0.2
   sprite: {fileID: 21300000, guid: 7c67f785757abc941bfec6ec3cea7aa3, type: 3}

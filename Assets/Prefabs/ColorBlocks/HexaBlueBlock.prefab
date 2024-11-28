@@ -60,8 +60,17 @@ PrefabInstance:
       propertyPath: puzzleBlockSO
       value: 
       objectReference: {fileID: 11400000, guid: c91e47088b5c3ef4baeae5d6136c2ab6, type: 2}
+    - target: {fileID: 7012902422339620620, guid: b243f7a60560b244a99a310963b66717, type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 5430974103225047771}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b243f7a60560b244a99a310963b66717, type: 3}
+--- !u!4 &5430974103225047771 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2230920204929615978, guid: b243f7a60560b244a99a310963b66717, type: 3}
+  m_PrefabInstance: {fileID: 6173133505158009521}
+  m_PrefabAsset: {fileID: 0}
