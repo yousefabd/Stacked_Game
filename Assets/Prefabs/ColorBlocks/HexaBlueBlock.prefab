@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: HexaBlueBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 1044647872304599554, guid: b243f7a60560b244a99a310963b66717, type: 3}
+      propertyPath: fusionColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044647872304599554, guid: b243f7a60560b244a99a310963b66717, type: 3}
+      propertyPath: fusionColor.b
+      value: 0.9960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044647872304599554, guid: b243f7a60560b244a99a310963b66717, type: 3}
+      propertyPath: fusionColor.g
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044647872304599554, guid: b243f7a60560b244a99a310963b66717, type: 3}
+      propertyPath: fusionColor.r
+      value: 0.015686275
+      objectReference: {fileID: 0}
     - target: {fileID: 1079869033868968930, guid: b243f7a60560b244a99a310963b66717, type: 3}
       propertyPath: m_Sprite
       value: 

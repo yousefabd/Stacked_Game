@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 319449849712862396, guid: b087c615c103dbc45957970286b2f483, type: 3}
+      propertyPath: fusionColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 319449849712862396, guid: b087c615c103dbc45957970286b2f483, type: 3}
+      propertyPath: fusionColor.b
+      value: 0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 319449849712862396, guid: b087c615c103dbc45957970286b2f483, type: 3}
+      propertyPath: fusionColor.g
+      value: 0.4039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 319449849712862396, guid: b087c615c103dbc45957970286b2f483, type: 3}
+      propertyPath: fusionColor.r
+      value: 0.9058824
+      objectReference: {fileID: 0}
     - target: {fileID: 733273193937529734, guid: b087c615c103dbc45957970286b2f483, type: 3}
       propertyPath: m_Name
       value: HeartOrangeBlock

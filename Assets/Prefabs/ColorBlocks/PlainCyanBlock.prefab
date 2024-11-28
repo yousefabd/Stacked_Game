@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: fdc8f802ce88c9a46b9f98d18a457490, type: 2}
     - target: {fileID: 733273193937529734, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
       propertyPath: m_Name
-      value: PlainCyan
+      value: PlainCyanBlock
       objectReference: {fileID: 0}
     - target: {fileID: 1079869033868968930, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
       propertyPath: m_Sprite
@@ -59,6 +59,18 @@ PrefabInstance:
     - target: {fileID: 2230920204929615978, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214759016900172479, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
+      propertyPath: fusionColor.b
+      value: 0.7176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214759016900172479, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
+      propertyPath: fusionColor.g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 9214759016900172479, guid: 0883b1d7d1a50db4b9b82946d589f67a, type: 3}
+      propertyPath: fusionColor.r
+      value: 0.054901965
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

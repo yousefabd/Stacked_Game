@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.g
+      value: 0.7411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.r
+      value: 0.21176472
+      objectReference: {fileID: 0}
     - target: {fileID: 733273193937529734, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
       propertyPath: m_Name
       value: DiamondLimeBlock
@@ -60,12 +76,18 @@ PrefabInstance:
       propertyPath: puzzleBlockSO
       value: 
       objectReference: {fileID: 11400000, guid: e74cdda048b932642a5690ad2f720505, type: 2}
+    - target: {fileID: 7701264280380801082, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: lengthInSec
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7891138641548001472, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
       propertyPath: targetObject
       value: 
       objectReference: {fileID: 4527471460164126321}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5037231878838315256, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+    - {fileID: 1857588233297230934, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}

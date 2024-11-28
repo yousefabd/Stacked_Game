@@ -18,6 +18,7 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
 
     public event Action<Vector2> OnSetMoveDir;
     public event Action OnReachedDestination;
+    public event Action OnFuse;
 
     private void Start()
     {
@@ -53,8 +54,11 @@ public class PuzzleBlock : MonoBehaviour, IMovableObject
         {
             currentPuzzleBlockState = PuzzleBlockState.IDLE;
             OnReachedDestination?.Invoke();
-            if(destruct)
+            if (destruct)
+            {
+                OnFuse?.Invoke();
                 Destroy(gameObject);
+            }
         }
     }
 

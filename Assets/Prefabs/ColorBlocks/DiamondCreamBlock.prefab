@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.b
+      value: 0.28627452
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.g
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 313518056162802736, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+      propertyPath: fusionColor.r
+      value: 0.9058824
+      objectReference: {fileID: 0}
     - target: {fileID: 733273193937529734, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
       propertyPath: m_Name
       value: DiamondCreamBlock
@@ -73,7 +89,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4317358215015264655}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5037231878838315256, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
+    - {fileID: 7070363207843247956, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94bd3de88d8cd7945bdc795a446487e8, type: 3}
