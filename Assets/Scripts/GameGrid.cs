@@ -84,7 +84,10 @@ public class GameGrid
                 {
                     if (IsIdentical(gameGrid[pos.x, pos.y], currentFacingBlockPos))
                     {
-                        puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, true);
+                        puzzleBlockMoves[gameGrid[pos.x, pos.y]] = new MoveAction(currentFacingBlockPos, destroy:true);
+                        var fusedPuzzleBlockMoveAction = puzzleBlockMoves[gameGrid[currentFacingBlockPos.x, currentFacingBlockPos.y]];
+                        fusedPuzzleBlockMoveAction.FuseInto();
+                        puzzleBlockMoves[gameGrid[currentFacingBlockPos.x, currentFacingBlockPos.y]] = fusedPuzzleBlockMoveAction;
                         MovePuzzleBlock(pos, currentFacingBlockPos, true);
                         availablePositions.Enqueue(pos);
                         currentBlocksCount--;
@@ -93,13 +96,14 @@ public class GameGrid
                     {
                         Vector2Int newPos = availablePositions.Dequeue();
                         currentFacingBlockPos = newPos;
-                        puzzleBlockMoves[gameGrid[pos.x,pos.y]] = new MoveAction(newPos, false);
+                        puzzleBlockMoves[gameGrid[pos.x,pos.y]] = new MoveAction(newPos, destroy:false);
                         MovePuzzleBlock(pos, newPos);
                         availablePositions.Enqueue(pos);
                     }
                     else
                     {
                         currentFacingBlockPos = pos;
+                        puzzleBlockMoves[gameGrid[pos.x,pos.y]] = new MoveAction(pos, destroy:false);
                     }
                 }
                 else if (IsClear(pos))

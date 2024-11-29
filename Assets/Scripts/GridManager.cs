@@ -117,15 +117,19 @@ public class GridManager : MonoBehaviour
         foreach (PuzzleBlock puzzleBlock in puzzleBlockMoves.Keys)
         {
             MoveAction moveAction = puzzleBlockMoves[puzzleBlock];
-            MovePuzzleBlockVisual(puzzleBlock, moveAction.newPos, moveAction.destroy);
+            MovePuzzleBlockVisual(puzzleBlock, moveAction.newPos, moveAction.destroy,moveAction.fusedInto);
         }
     }
-    private void MovePuzzleBlockVisual(PuzzleBlock puzzleBlock, Vector2Int newPosition, bool destroy = false)
+    private void MovePuzzleBlockVisual(PuzzleBlock puzzleBlock, Vector2Int newPosition, bool destroy = false, bool fuseInto = false)
     {
         puzzleBlock.SetPosition(GridToWorldPosition(newPosition));
         if (destroy)
         {
             puzzleBlock.Destruct();
+        }
+        else if (fuseInto)
+        {
+            puzzleBlock.FuseInto();
         }
     }
 
